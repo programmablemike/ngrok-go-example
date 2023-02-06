@@ -1,0 +1,9 @@
+version: '3'
+vars:
+  BIN_NAME: ngrok-go
+tasks:
+  setup: go get
+  generate: buf generate
+  build: go build -o ./bin/{{.BIN_NAME}} {{.CLI_ARGS}} main.go
+  run: go run main.go -- {{.CLI_ARGS}}
+  test: go test -race ./...

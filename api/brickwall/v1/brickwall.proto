@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package brickwall.v1;
+
+option go_package = "github.com/programmablemike/ngrok-go-example/gen/go/brickwall/v1;brickwallv1";
+
+service ToggleService {
+    rpc CheckBlocklist(CheckBlocklistRequest) returns (CheckBlocklistResponse) {}
+}
+
+// We assume a default of BLOCKED to provide performance benefits during DDoS type events
+// which would result in a spike in block list checks
+enum BlockStatus {
+    BLOCKED = 0;
+    NOT_BLOCKED = 1;
+}
+
+message CheckBlocklistRequest {
+    string id = 1;
+
+}
+
+message CheckBlocklistResponse {
+    string id = 1;
+    BlockStatus blocked = 2;
+}
