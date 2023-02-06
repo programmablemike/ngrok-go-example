@@ -19,10 +19,15 @@ func NewServerCommand() *cli.Command {
 	return &cli.Command{
 		Name:  "server",
 		Usage: "starts the server",
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:  "HTTPEndpoint",
+				Value: "/",
+			},
+		},
 		Action: func(cCtx *cli.Context) error {
 			log.Info().Msg("Hello world!")
-
-			return nil
+			return RunServer(context.Background())
 		},
 	}
 }
@@ -40,7 +45,7 @@ func (bs *BrickwallServer) CheckBlocklist(ctx context.Context, req *connect.Requ
 
 func RunServer(ctx context.Context) error {
 	l, err := ngrok.Listen(ctx,
-		config.HTTPEndpoint,
+		config.HTTPEndpoint(),
 		ngrok.WithAuthtokenFromEnv(),
 	)
 	if err != nil {
@@ -51,5 +56,5 @@ func RunServer(ctx context.Context) error {
 	mux := http.NewServeMux()
 	path, handler := brickwallv1connect.NewToggleServiceHandler(brickwall)
 	mux.Handle(path, handler)
-	return http.Serve(l, h2c.NewHandler(mux, &http2.Server{})))
+	return http.Serve(l, h2c.NewHandler(mux, &http2.Server{}))
 }
