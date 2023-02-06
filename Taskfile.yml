@@ -1,9 +1,12 @@
 version: '3'
 vars:
   BIN_NAME: ngrok-go
+  NGROK_EDGE: b345bd84f683.ngrok.io
 tasks:
   setup: go get
   generate: buf generate
   build: go build -o ./bin/{{.BIN_NAME}} {{.CLI_ARGS}} main.go
   run: go run main.go -- {{.CLI_ARGS}}
   test: go test -race ./...
+  call: buf curl --protocol grpc --schema api -d @example-request.json https://{{.NGROK_EDGE}}/brickwall.v1.BrickwallService/CheckBlocklist
+

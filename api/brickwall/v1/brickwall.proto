@@ -4,7 +4,7 @@ package brickwall.v1;
 
 option go_package = "github.com/programmablemike/ngrok-go-example/gen/go/brickwall/v1;brickwallv1";
 
-service ToggleService {
+service BrickwallService {
     rpc CheckBlocklist(CheckBlocklistRequest) returns (CheckBlocklistResponse) {}
 }
 
@@ -17,7 +17,6 @@ enum BlockStatus {
 
 message CheckBlocklistRequest {
     string id = 1;
-
 }
 
 message CheckBlocklistResponse {

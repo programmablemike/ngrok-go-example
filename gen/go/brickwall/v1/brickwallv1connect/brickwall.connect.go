@@ -21,66 +21,66 @@ import (
 const _ = connect_go.IsAtLeastVersion0_1_0
 
 const (
-	// ToggleServiceName is the fully-qualified name of the ToggleService service.
-	ToggleServiceName = "brickwall.v1.ToggleService"
+	// BrickwallServiceName is the fully-qualified name of the BrickwallService service.
+	BrickwallServiceName = "brickwall.v1.BrickwallService"
 )
 
-// ToggleServiceClient is a client for the brickwall.v1.ToggleService service.
-type ToggleServiceClient interface {
+// BrickwallServiceClient is a client for the brickwall.v1.BrickwallService service.
+type BrickwallServiceClient interface {
 	CheckBlocklist(context.Context, *connect_go.Request[v1.CheckBlocklistRequest]) (*connect_go.Response[v1.CheckBlocklistResponse], error)
 }
 
-// NewToggleServiceClient constructs a client for the brickwall.v1.ToggleService service. By
+// NewBrickwallServiceClient constructs a client for the brickwall.v1.BrickwallService service. By
 // default, it uses the Connect protocol with the binary Protobuf Codec, asks for gzipped responses,
 // and sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the
 // connect.WithGRPC() or connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewToggleServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) ToggleServiceClient {
+func NewBrickwallServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) BrickwallServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	return &toggleServiceClient{
+	return &brickwallServiceClient{
 		checkBlocklist: connect_go.NewClient[v1.CheckBlocklistRequest, v1.CheckBlocklistResponse](
 			httpClient,
-			baseURL+"/brickwall.v1.ToggleService/CheckBlocklist",
+			baseURL+"/brickwall.v1.BrickwallService/CheckBlocklist",
 			opts...,
 		),
 	}
 }
 
-// toggleServiceClient implements ToggleServiceClient.
-type toggleServiceClient struct {
+// brickwallServiceClient implements BrickwallServiceClient.
+type brickwallServiceClient struct {
 	checkBlocklist *connect_go.Client[v1.CheckBlocklistRequest, v1.CheckBlocklistResponse]
 }
 
-// CheckBlocklist calls brickwall.v1.ToggleService.CheckBlocklist.
-func (c *toggleServiceClient) CheckBlocklist(ctx context.Context, req *connect_go.Request[v1.CheckBlocklistRequest]) (*connect_go.Response[v1.CheckBlocklistResponse], error) {
+// CheckBlocklist calls brickwall.v1.BrickwallService.CheckBlocklist.
+func (c *brickwallServiceClient) CheckBlocklist(ctx context.Context, req *connect_go.Request[v1.CheckBlocklistRequest]) (*connect_go.Response[v1.CheckBlocklistResponse], error) {
 	return c.checkBlocklist.CallUnary(ctx, req)
 }
 
-// ToggleServiceHandler is an implementation of the brickwall.v1.ToggleService service.
-type ToggleServiceHandler interface {
+// BrickwallServiceHandler is an implementation of the brickwall.v1.BrickwallService service.
+type BrickwallServiceHandler interface {
 	CheckBlocklist(context.Context, *connect_go.Request[v1.CheckBlocklistRequest]) (*connect_go.Response[v1.CheckBlocklistResponse], error)
 }
 
-// NewToggleServiceHandler builds an HTTP handler from the service implementation. It returns the
+// NewBrickwallServiceHandler builds an HTTP handler from the service implementation. It returns the
 // path on which to mount the handler and the handler itself.
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewToggleServiceHandler(svc ToggleServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
+func NewBrickwallServiceHandler(svc BrickwallServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
 	mux := http.NewServeMux()
-	mux.Handle("/brickwall.v1.ToggleService/CheckBlocklist", connect_go.NewUnaryHandler(
-		"/brickwall.v1.ToggleService/CheckBlocklist",
+	mux.Handle("/brickwall.v1.BrickwallService/CheckBlocklist", connect_go.NewUnaryHandler(
+		"/brickwall.v1.BrickwallService/CheckBlocklist",
 		svc.CheckBlocklist,
 		opts...,
 	))
-	return "/brickwall.v1.ToggleService/", mux
+	return "/brickwall.v1.BrickwallService/", mux
 }
 
-// UnimplementedToggleServiceHandler returns CodeUnimplemented from all methods.
-type UnimplementedToggleServiceHandler struct{}
+// UnimplementedBrickwallServiceHandler returns CodeUnimplemented from all methods.
+type UnimplementedBrickwallServiceHandler struct{}
 
-func (UnimplementedToggleServiceHandler) CheckBlocklist(context.Context, *connect_go.Request[v1.CheckBlocklistRequest]) (*connect_go.Response[v1.CheckBlocklistResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("brickwall.v1.ToggleService.CheckBlocklist is not implemented"))
+func (UnimplementedBrickwallServiceHandler) CheckBlocklist(context.Context, *connect_go.Request[v1.CheckBlocklistRequest]) (*connect_go.Response[v1.CheckBlocklistResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("brickwall.v1.BrickwallService.CheckBlocklist is not implemented"))
 }

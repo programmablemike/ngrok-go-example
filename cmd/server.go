@@ -26,7 +26,6 @@ func NewServerCommand() *cli.Command {
 			},
 		},
 		Action: func(cCtx *cli.Context) error {
-			log.Info().Msg("Hello world!")
 			return RunServer(context.Background())
 		},
 	}
@@ -35,7 +34,7 @@ func NewServerCommand() *cli.Command {
 type BrickwallServer struct{}
 
 func (bs *BrickwallServer) CheckBlocklist(ctx context.Context, req *connect.Request[brickwallv1.CheckBlocklistRequest]) (*connect.Response[brickwallv1.CheckBlocklistResponse], error) {
-	log.Info().Msg("Called CheckblockList")
+	log.Info().Msgf("Called CheckblockList with request %v", req)
 	return connect.NewResponse(&brickwallv1.CheckBlocklistResponse{
 		Id:      "myid",
 		Blocked: brickwallv1.BlockStatus_NOT_BLOCKED,
@@ -54,7 +53,7 @@ func RunServer(ctx context.Context) error {
 	log.Info().Msgf("Listening at %s", l.Addr())
 	brickwall := &BrickwallServer{}
 	mux := http.NewServeMux()
-	path, handler := brickwallv1connect.NewToggleServiceHandler(brickwall)
+	path, handler := brickwallv1connect.NewBrickwallServiceHandler(brickwall)
 	mux.Handle(path, handler)
 	return http.Serve(l, h2c.NewHandler(mux, &http2.Server{}))
 }
