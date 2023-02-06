@@ -35,6 +35,7 @@ type BrickwallServer struct{}
 
 func (bs *BrickwallServer) CheckBlocklist(ctx context.Context, req *connect.Request[brickwallv1.CheckBlocklistRequest]) (*connect.Response[brickwallv1.CheckBlocklistResponse], error) {
 	log.Info().Msgf("Called CheckblockList with request %v", req)
+	// TODO(mlee): Implement the block list checking logic
 	return connect.NewResponse(&brickwallv1.CheckBlocklistResponse{
 		Id:      "myid",
 		Blocked: brickwallv1.BlockStatus_NOT_BLOCKED,
