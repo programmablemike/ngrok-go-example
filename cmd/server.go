@@ -19,12 +19,6 @@ func NewServerCommand() *cli.Command {
 	return &cli.Command{
 		Name:  "server",
 		Usage: "starts the server",
-		Flags: []cli.Flag{
-			&cli.StringFlag{
-				Name:  "HTTPEndpoint",
-				Value: "/",
-			},
-		},
 		Action: func(cCtx *cli.Context) error {
 			return RunServer(context.Background())
 		},
